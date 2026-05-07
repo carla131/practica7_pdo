@@ -9,7 +9,7 @@ services:
       - "3306:3306"
 
   web:
-    image: php:8.2-apache
+    build: .
     container_name: web_practica7
     volumes:
       - .:/var/www/html
