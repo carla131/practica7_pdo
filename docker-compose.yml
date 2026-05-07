@@ -1,0 +1,17 @@
+services:
+  db:
+    image: mariadb:latest
+    container_name: db_practica7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: botiga
+    ports:
+      - "3306:3306"
+
+  web:
+    image: php:8.2-apache
+    container_name: web_practica7
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8080:80"

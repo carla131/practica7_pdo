@@ -1,0 +1,30 @@
+<?php
+// model/videojoc_db.php
+
+function obtenirTotsElsJocs($pdo) {
+    // Consulta amb JOIN per portar el nom del desenvolupador
+    $stmt = $pdo->prepare("SELECT v.*, d.nom AS dev_nom FROM videojocs v LEFT JOIN desenvolupadors d ON v.desenvolupador_id = d.id");
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function obtenirJocPerId($pdo, $id) {
+    $stmt = $pdo->prepare("SELECT * FROM videojocs WHERE id = ?");
+    $stmt->execute([$id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC);
+}
+
+function insertarJoc($pdo, $titol, $genere, $preu, $dev_id) {
+    $stmt = $pdo->prepare("INSERT INTO videojocs (titol, genere, preu, desenvolupador_id) VALUES (?, ?, ?, ?)");
+    return $stmt->execute([$titol, $genere, $preu, $dev_id]);
+}
+
+function actualitzarJoc($pdo, $id, $titol, $genere, $preu, $dev_id) {
+    $stmt = $pdo->prepare("UPDATE videojocs SET titol=?, genere=?, preu=?, desenvolupador_id=? WHERE id=?");
+    return $stmt->execute([$titol, $genere, $preu, $dev_id, $id]);
+}
+
+function esborrarJoc($pdo, $id) {
+    $stmt = $pdo->prepare("DELETE FROM videojocs WHERE id = ?");
+    return $stmt->execute([$id]);
+}
